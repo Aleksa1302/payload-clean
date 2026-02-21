@@ -1,0 +1,14 @@
+# llms.txt
+
+This site is powered by Payload CMS and Astro.
+
+Content types:
+- Pages
+- Blog posts
+- Portfolio items
+- Services
+- FAQs
+- Site settings (menus, footer, SEO)
+- Forms
+
+For content updates, use the CMS admin panel.
