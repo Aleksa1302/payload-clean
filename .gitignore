@@ -42,6 +42,9 @@ next-env.d.ts
 
 /media
 
+# local secrets
+.secrets/
+
 # Playwright
 node_modules/
 /test-results/
