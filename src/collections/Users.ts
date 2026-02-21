@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { isAdmin } from '@/access/isAdmin'
+import { isAdmin, isAdminUser } from '@/access/isAdmin'
 import { isAdminOrSelf } from '@/access/isAdminOrSelf'
 
 export const Users: CollectionConfig = {
@@ -25,7 +25,20 @@ export const Users: CollectionConfig = {
       required: true,
       saveToJWT: true,
       access: {
-        update: isAdmin,
+        update: async ({ req, id }) => {
+          if (isAdminUser(req.user)) return true
+          if (!req.user || !id || req.user.id !== id) return false
+          try {
+            const existingAdmins = await req.payload.count({
+              collection: 'users',
+              where: { roles: { contains: 'admin' } },
+              overrideAccess: true,
+            })
+            return existingAdmins.totalDocs === 0
+          } catch {
+            return false
+          }
+        },
       },
     },
     {
